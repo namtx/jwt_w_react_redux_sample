@@ -1,0 +1,23 @@
+{
+  "extends": "airbnb",
+  "plugins": ["react", "jsx-a11y", "import"],
+  "env": {
+    "browser": true
+  },
+  "rules": {
+    "react/jsx-filename-extension": [1, { "extensions": ["js", "jsx"] }],
+    "no-console": "off",
+    "no-underscore-dangle": "off",
+    "jsx-a11y/label-has-for": [
+      "error",
+      {
+        "components": ["label"],
+        "required": {
+          "every": ["id"]
+        }
+      }
+    ],
+    "jsx-a11y/label-has-associated-control": "off",
+    "class-methods-use-this": "off"
+  }
+}
