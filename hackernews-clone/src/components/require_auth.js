@@ -4,8 +4,10 @@ import { connect } from 'react-redux';
 export default (ComposedComponent) => {
   class Authentication extends React.Component {
     componentWillMount() {
-      const { history, authenticated } = this.props;
-      if (!authenticated) {
+      const token = localStorage.getItem('token');
+      const { history } = this.props;
+
+      if (!token) {
         history.push('/signin');
       }
     }
@@ -13,7 +15,7 @@ export default (ComposedComponent) => {
     componentWillUpdate(nextProps) {
       const { history } = this.props;
       if (!nextProps.authenticated) {
-        history.push('/login');
+        history.push('/signin');
       }
     }
 
@@ -22,9 +24,9 @@ export default (ComposedComponent) => {
     }
   }
 
-  const mapStateToProps = (state) => {
-    return { authenticated: state.auth.authenticated };
-  };
+  const mapStateToProps = state => (
+    { authenticated: state.auth.authenticated }
+  );
 
   return connect(mapStateToProps)(Authentication);
 };

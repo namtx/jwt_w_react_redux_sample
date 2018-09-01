@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import { signIn } from '../actions';
 
 class SignIn extends Component {
@@ -12,7 +13,9 @@ class SignIn extends Component {
   }
 
   handleSubmit({ email, password }) {
+    /* eslint-disable */
     this.props.signIn({ email, password });
+    /* eslint-enable */
   }
 
   renderError() {
@@ -57,9 +60,13 @@ SignIn.defaultProps = {
   errorMessage: null,
 };
 
-const mapStateToProps = (state) => {
-  return { errorMessage: state.auth.error };
-};
+const mapStateToProps = state => (
+  { errorMessage: state.auth.error }
+);
 
-const SignInForm = reduxForm({ form: 'login' })(connect(mapStateToProps, { signIn })(SignIn));
-export default SignInForm;
+const mapDispatchToProps = (dispatch, ownProps) => (
+  { signIn: data => dispatch(signIn(data, ownProps.history)) }
+);
+
+const SignInForm = reduxForm({ form: 'login' })(connect(mapStateToProps, mapDispatchToProps)(SignIn));
+export default withRouter(SignInForm);
